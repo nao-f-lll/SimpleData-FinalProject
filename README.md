@@ -1,2 +1,1 @@
-# SimpleData-FinalProject
-Final Project (Space Invaders)
+# SimpleData-FinalProject (Space Invaders)
