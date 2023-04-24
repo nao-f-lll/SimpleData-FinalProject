@@ -24,7 +24,11 @@ The Space Invaders Video Game is the final project of [The University of British
 
     `(main G0)`
     
+## Domain Analysis  
 
+![domain analysis](https://imgur.com/L3EM3Dj.png)
+
+## Screen Capture
 
 ![spaceinvaders][def]
 
