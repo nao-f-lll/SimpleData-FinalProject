@@ -11,7 +11,8 @@ The Space Invaders Video Game is the final project of [The University of British
 
 2. Download the zip file from this repo: [Download zip](https://github.com/nicoleiocana/space-invaders/archive/master.zip)
 
-    ![download zip file](https://imgur.com/n3hhOQi.png)
+    ![download zip file](https://user-images.githubusercontent.com/111573910/233996227-e2a8eda5-145c-42a3-a3d3-973c8e99c05a.png)
+
 
 3. Unzip the file. Inside the `space-invaders` folder, double-click on the _space-invaders.rkt_ file.
 
