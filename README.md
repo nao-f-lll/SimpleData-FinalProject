@@ -9,7 +9,7 @@ The Space Invaders Video Game is the final project of [The University of British
 
 1. Download DrRacket (**reminder: adjust specifications to The Beginning Student with List Abbreviations**) and install on your local machine: [Download Racket](https://download.racket-lang.org/)
 
-2. Download the zip file from this repo: [Download zip](https://github.com/nicoleiocana/space-invaders/archive/master.zip)
+2. Download the zip file from this repo: [Download zip](https://github.com/nao-f-lll/SimpleData-FinalProject.git)
 
     ![download zip file](https://user-images.githubusercontent.com/111573910/233996227-e2a8eda5-145c-42a3-a3d3-973c8e99c05a.png)
 
@@ -23,6 +23,7 @@ The Space Invaders Video Game is the final project of [The University of British
 5. After all tests pass, type this in the interactions section to play the game:
 
     `(main G0)`
+    
 
 
 ![spaceinvaders][def]
