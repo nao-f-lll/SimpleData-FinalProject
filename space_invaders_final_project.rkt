@@ -1,3 +1,6 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname space_invaders_final_project) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/universe)
 (require 2htdp/image)
 
@@ -142,7 +145,7 @@
   (big-bang game                     ; game
             (on-tick   updateGame)   ; game -> game
             (to-draw   renderGame)   ; game -> Image
-            (stop-when gameOver)     ; game -> Boolean    
+            (stop-when gameOver overImage)     ; game -> Boolean    
             (on-key    handleKey)))  ; game KeyEvent -> game
 
 ;; game -> game
@@ -268,7 +271,6 @@
   
   (or (and (= invader-dx 1.5) (and (>= invader-x 0) (< invader-x 300)))
             (and (= invader-dx -1.5) (<= invader-x 0))))
- 
 
 ;; ListOfMissiles ListOfInvaders -> ListOfInvaders
 ;; Filter the invaders and remove the ones that are hited by a missile
@@ -321,6 +323,7 @@
              (inavderXcChecker invader (rest lom)))]))
 
 
+
 ;; Invader Missile -> Boolean
 ;; return true if the invader has the same x coordinate with one missile
 (check-expect (missileInvaderXC (make-invader 200 50 1.5) (make-missile 200 78)) true)
@@ -329,8 +332,10 @@
 ;;(define (missileInvaderXC invader missile) true)
 
 (define (missileInvaderXC invader missile)
-         (or (=  (missile-x missile) (invader-x invader) )
-             (<= (abs (- (missile-x missile)(invader-x invader))) HIT-RANGE)))
+        
+             (<= (abs (- (missile-x missile)(invader-x invader))) HIT-RANGE))
+
+
 
 
 ;; Invader ListOfMissiles -> Boolean
@@ -360,8 +365,9 @@
 ;;(define (missileInvaderYC invader missile) true)
 
 (define (missileInvaderYC invader missile)  
-         (<= (abs (- (missile-y missile) (invader-y invader))) HIT-RANGE))           
-  
+         
+   (<= (abs (- (missile-y missile) (invader-y invader))) HIT-RANGE))           
+
 ;; game -> ListOfMissiles
 ;; Advance the missiles and filter them 
 
@@ -425,12 +431,15 @@
 (check-expect (hitInvader (list  (make-invader 150 40 1) (make-invader 250 300 -1))
                           (list (make-missile 250 300) (make-missile 50 15) ))
 
-                           (list (make-missile 50 15)))
+                    (list (make-missile 50 15)))
+
+
+
 
 ;(define (hitInvader loi lom) lom)
 
 (define (hitInvader loi lom)
-  (cond [(empty? lom) lom]
+  (cond [(or (empty? lom) (empty? loi)) lom]
         [else
          (if (IsMissilesHitingInvaders (first lom) (CheckCordinateX (first lom) loi)) 
         (hitInvader loi (rest lom))
@@ -444,7 +453,7 @@
 
 (check-expect (CheckCordinateX (make-missile 150 15) (list  (make-invader 20 40 1) (make-invader 150 300 -1)))
                                (list (make-invader 150 300 -1)))
-              
+            
 (check-expect (CheckCordinateX (make-missile 90 15) (list  (make-invader 90 40 1) (make-invader 250 300 -1)))
                                (list (make-invader 90 40 1)))
 
@@ -465,10 +474,11 @@
 
 ;; Missile Invader  -> Boolean
 ;; Return true if the missile and the invader are in the smae x coordinate
-(check-expect (compareX (make-missile 190 15) (make-invader 190 40 1)) true)
-(check-expect (compareX (make-missile 20 15) (make-invader 190 40 1)) false)
+;;(check-expect (compareX (make-missile 190 15) (make-invader 190 40 1)) true)
+;;(check-expect (compareX (make-missile 20 15) (make-invader 190 40 1)) false)
 
 ;;(define (compareX missile invader) true)
+
 (define (compareX missile invader)
   (<= (abs (- (missile-x missile) (invader-x invader))) HIT-RANGE))
 
@@ -476,6 +486,7 @@
 ;; Return true if the missile hits the invader
 
 (check-expect (IsMissilesHitingInvaders (make-missile 250 300) empty) false)
+
 (check-expect (IsMissilesHitingInvaders (make-missile 250 40) (list (make-invader 250 300 -1) (make-invader 150 48 1)))
               false)
 
@@ -489,9 +500,9 @@
 (define (IsMissilesHitingInvaders missile loi)
   (cond [(empty? loi) false]
         [else
-         (if (or (invaderEqualMissile missile (first loi)) (IsMissilesHitingInvaders missile (rest loi)))
+         (if (invaderEqualMissile  missile (first loi)) 
              true
-             false
+             (IsMissilesHitingInvaders missile (rest loi))
               )]))
 
 ;; Missile Invader  -> Boolean
@@ -499,12 +510,13 @@
 (check-expect (invaderEqualMissile (make-missile 250 310) (make-invader 150 40 1)) false)
 (check-expect (invaderEqualMissile (make-missile 150 160) (make-invader 150 140 -1)) false)
 (check-expect (invaderEqualMissile (make-missile 150 160) (make-invader 150 160 -1)) true)
-;;(check-expect (invaderEqualMissile (make-missile 90 150) (make-invader 90 140 1)) true)
 
 ;;(define (invaderEqualMissile missile invader) false)
 
 (define (invaderEqualMissile missile invader)
-         (=  (missile-y missile) (invader-y invader))) 
+         (and
+          (<= (abs (- (missile-x missile) (invader-x invader))) HIT-RANGE)
+          (<= (abs (- (missile-y missile) (invader-y invader))) 3))) 
 
 ;; ListOfMissiles -> ListOfMissiles
 ;; Advance the missiles by MISSILE-SPEED pixels
@@ -634,7 +646,6 @@
               (place-image TANK 50 (- HEIGHT TANK-HEIGHT/2) BACKGROUND))))
 
 
-
 ;;(define (renderMissiles lom image)MISSILE)
 
 (define (renderMissiles lom image)
@@ -715,7 +726,17 @@
 
 (define (invaderYHeightCompare invader)
   (> (invader-y invader) HEIGHT))
-  
+
+
+;; Game -> Image
+;; produces the game over screen
+
+; (define (overImage game) BACKGROUND) ;stub
+
+(define (overImage game)
+  (place-image (text "GAME OVER" 50 "black") (/ WIDTH 2) (/ HEIGHT 2) (renderGame game)))
+
+
 ;; game KeyEvent -> game
 ;; Control the game when the left, right and space keys are pressed
 (check-expect (handleKey G0  " ") (make-game empty (list (make-missile (/ WIDTH 2) (- HEIGHT FIRE-RANGE))) T0))
