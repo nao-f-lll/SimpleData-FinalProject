@@ -7,7 +7,7 @@ The Space Invaders Video Game is the final project of [The University of British
 
 ## Getting started
 
-1. Download DrRacket (**reminder: adjust specifications to The Beginning Student with List Abbreviations*) and install on your local machine: [Download Racket](https://download.racket-lang.org/)
+1. Download DrRacket (**reminder: adjust specifications to The Beginning Student with List Abbreviations**) and install on your local machine: [Download Racket](https://download.racket-lang.org/)
 
 2. Download the zip file from this repo: [Download zip](https://github.com/nicoleiocana/space-invaders/archive/master.zip)
 
